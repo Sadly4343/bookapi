@@ -1,0 +1,51 @@
+[
+  {
+    "_id": "author1",
+    "firstName": "Zane",
+    "lastName": "Smith",
+    "biography": "Zane was born in Paduca, Ohio and while still a child, loved to tell stories. He graduated from college in 1996 and has been honing his craft ever since.",
+    "birthdate": "1974-05-08"
+  },
+  {
+    "_id": "author2",
+    "firstName": "Sheila",
+    "lastName": "Munrow",
+    "biography": "Sheila graduated top of her class with a MFA from Yade University. Her dreams have always taken her to new heights, and she wanted to share her dreams with others. This is her first published book.",
+    "birthdate": "2000-06-07"
+  },
+  {
+    "_id": "author3",
+    "firstName": "Hammond",
+    "lastName": "Thurgood",
+    "biography": "Hammond Thurgood knows what it means to weave fiction with reality. His sci-fi fantasies blend historically authentic details with amazing creativity as he tries to explain our most basic human questions. Mr. Thurgood has remained a powerful influence on many other authors. This is his first book outside of his normal genre.",
+    "birthdate": "1955-08-15"
+  },
+  {
+    "_id": "author4",
+    "firstName": "Phillip",
+    "lastName": "Wilson",
+    "biography": "Growing up on the beach and surrounded by eclectic influences has given Phillip Wilson the needed fodder for crafting beautifully amazing tales. This is his first book with this new publishing company.",
+    "birthdate": "1988-02-17"
+  },
+  {
+    "_id": "author5",
+    "firstName": "Marnie",
+    "lastName": "Maynes",
+    "biography": "Her alliterative name became a symbol of her flair for children's stories. Ms. Maynes has ventured out of the norm with this new collection of books.",
+    "birthdate": "1995-01-03"
+  },
+  {
+    "_id": "author6",
+    "firstName": "Hunter",
+    "lastName": "Blevins",
+    "biography": "At the young age of 25, Hunter left his corporate job and set out on a new path. The gamble paid off and he was met with instant success. In his spare time, Hunter loves to hike and fish.",
+    "birthdate": "1998-12-18"
+  },
+  {
+    "_id": "author7",
+    "firstName": "Anna-Beth",
+    "lastName": "Hawkins",
+    "biography": "As a mother, Anna-Beth has learned so many tips and trick on raising children, yet trying to stay sane. In addition to her self-help books, Anna-Beth has chosen to venture out of her normal fare and offers this new type of book for your enjoyment.",
+    "birthdate": "1982-04-05"
+  }
+]
