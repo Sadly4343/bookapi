@@ -6,7 +6,7 @@ const doc = {
         description: 'Book Api'
 
     },
-    host: 'bookapi-vk60.onrender.com/',
+    host: 'bookapi-vk60.onrender.com',
      schemes: ['https']
  };
 
