@@ -3,7 +3,7 @@
 //const passport = require('passport');
 const router = require('express').Router();
 
-//router.use('/');
+router.use('/', require('./swagger'));
 
 router.get('/', (req, res) => {
     res.send('hello world')

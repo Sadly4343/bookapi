@@ -5,7 +5,7 @@
     "description": "Book Api",
     "version": "1.0.0"
   },
-  "host": "localhost:3000/books",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
     "https",
@@ -41,6 +41,147 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "example": "any"
+                },
+                "authorId": {
+                  "example": "any"
+                },
+                "genre": {
+                  "example": "any"
+                },
+                "pageCount": {
+                  "example": "any"
+                },
+                "publishedDate": {
+                  "example": "any"
+                },
+                "isbn": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                },
+                "storeIds": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/books/{id}": {
+      "get": {
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "example": "any"
+                },
+                "authorId": {
+                  "example": "any"
+                },
+                "genre": {
+                  "example": "any"
+                },
+                "pageCount": {
+                  "example": "any"
+                },
+                "publishedDate": {
+                  "example": "any"
+                },
+                "isbn": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                },
+                "storeIds": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
           },
           "500": {
             "description": "Internal Server Error"
