@@ -13,7 +13,7 @@ const port = process.env.port || 3000;
 
 app.use('/', require('./routes'));
 
-
+app.use(bodyParser.json());
 
 
 
