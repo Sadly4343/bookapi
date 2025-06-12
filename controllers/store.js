@@ -7,7 +7,7 @@ const getAllStores = async (req, res) => {
         //#swagger.tag=['sstore']
         console.log('Called');
         const result = await mongodb.getDatabase().db().collection('stores').find();
-        result.toArray().then((books) => {
+        result.toArray().then((stores) => {
             res.setHeader('Content-Type', 'application/json');
             res.status(200).json(store);
         });
@@ -37,8 +37,9 @@ const createStore = async (req, res) => {
         //#swagger.tag=['store']
     const book = {
         name: req.body.title,
-        addres: req.body.addressId,
-        country:req.body.country
+        address: req.body.addressId,
+        website: req.body.website,
+        isbn: req.body.isbn
     }
 
     const response = await mongodb.getDatabase().db().collection('stores').insertOne(store);
@@ -50,21 +51,20 @@ const createStore = async (req, res) => {
     }
     } 
     catch (err) {
-        res.status(500).json({error: err.message || "Error has occured in Books"})
+        res.status(500).json({error: err.message || "Error has occured in Stores"})
     }
 }
 
 const updateStore = async (req, res) => {
     try {
-        //#swagger.tag=['stores']
+        //#swagger.tag=['store']
 
     const storeId = new ObjectId(req.params.id);
     const store = {
         name: req.body.title,
-        addres: req.body.addressId,
-        country:req.body.country
-
-    
+        address: req.body.addressId,
+        website: req.body.website,
+        isbn: req.body.isbn
     }
 
     const response = await mongodb.getDatabase().db().collection('stores').replaceOne({ _id: storeId}, store);
@@ -72,20 +72,19 @@ const updateStore = async (req, res) => {
     if (response.acknowledged) {
         res.status(201).send();
     } else {
-        res.status(500).json(response.error || 'Error occured updating store');
+        res.status(500).json(response.error || 'Error occured updating Store');
     }
     } 
     catch (err) {
-        res.status(500).json({error: err.message || "Error has occured in stores"})
+        res.status(500).json({error: err.message || "Error has occured in Stores"})
     }
 }
 
 const deleteStore = async (req, res) => {
     try {
 
-    
     //#swagger.tag=['stores']
-    const bookId = new ObjectId(req.params.id);
+    const storeId = new ObjectId(req.params.id);
     const response = await mongodb.getDatabase().db().collection('stores').deleteOne({ _id: storeId});
     if (response.deletedCount > 0) {
         res.status(204).send();
