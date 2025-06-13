@@ -6,7 +6,21 @@ const router = require('express').Router();
 router.use('/', require('./swagger'));
 
 router.get('/', (req, res) => {
-    res.send('hello world')
+    //res.send('hello world')
+     if (req.isAuthenticated()) {
+        res.send(`
+            <h1>Welcome ${req.user.displayName}!</h1>
+            <h3>Profile URL: ${req.user.profileUrl}</h3>
+            <p>You are logged in via GitHub</p><br>
+            <a href="/logout">Logout</a>
+        `);
+    } else {
+        res.send(`
+            <h1>Welcome to Team six Book API</h1>
+            <p>You are not logged in</p>
+            <a href="/login">Login with GitHub</a>
+        `);
+    }
 });
 
 router.use('/books', require('./books'));
