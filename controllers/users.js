@@ -70,7 +70,7 @@ const updateUser = async (req, res) => {
         isbn: req.body.isbn
     }
 
-    const response = await mongodb.getDatabase().db().collection('users').replaceOne({ _id: userId}, user);
+    const response = await mongodb.getDatabase().db().collection('users').replaceOne({ '_id': userId}, user);
 
     if (response.acknowledged) {
         res.status(201).send();
