@@ -70,6 +70,33 @@ const userValidationRules = () => {
     ]
 }
 
+const usersValidationRules = () => {
+    return [
+        body('username')
+            .notEmpty().withMessage('Username is required')
+
+            .isLength({ min: 2 }).withMessage('Username must be at least 2 letters long'),
+        body('email')
+            .isEmail().withMessage('Must be a valid email')
+            .normalizeEmail() // Converts Test@Example.com → test@example.com
+            .notEmpty().withMessage('Email cannot be empty')
+            .isLength({ max: 100 }).withMessage('Email must be less than 100 chars'),
+        body('password')
+            .isLength({ min: 8 }).withMessage('Password must be at least 8 characters long')
+            .matches(/[A-Z]/).withMessage('Password must contain at least one uppercase letter')
+            .matches(/[a-z]/).withMessage('Password must contain at least one lowercase letter')
+            .matches(/[0-9]/).withMessage('Password must contain at least one number')
+            .matches(/[\W_]/).withMessage('Password must contain at least one special character'),
+        body('role')
+            .notEmpty().withMessage('Role is required')
+            .isIn(['user', 'admin']).withMessage('Role must be either user or admin'),
+         body('isbn')
+            .notEmpty().withMessage('ISBN is required')
+            .matches(/^[0-9\-Xx]+$/).withMessage('ISBN must be a number, dash, or X only')
+            .isLength({ min: 10, max:13 }).withMessage('ISBN must be in valid format between 10-13 numbers long.'),
+    ]
+}
+
 const validate = (req, res, next) => {
     let errors = [];
     errors = validationResult(req)
