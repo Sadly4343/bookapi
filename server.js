@@ -9,7 +9,7 @@ const cors = require('cors');
 
 const app = express();
 
-const port = process.env.port || 3000;
+const port = process.env.PORT || 3000;
 
 
 app.use
@@ -39,9 +39,9 @@ app.use
 
 passport.use(new GitHubStrategy(
     {
-        clientID: process.env.GITHUB_CLIENT_ID,
-        clientSecret: process.env.GITHUB_CLIENT_SECRET,
-        callbackURL: process.env.CALLBACK_URL
+        clientID: process.env.GITHUB_CLIENT_ID || 'test-client-id',
+        clientSecret: process.env.GITHUB_CLIENT_SECRET || 'test-client-secret',
+        callbackURL: process.env.CALLBACK_URL || 'http://localhost:3000/github/callback'
     },
     function(accessToken, refreshToken, profile, done) {
         return done(null, profile);
@@ -64,17 +64,33 @@ app.get('/github/callback', passport.authenticate('github', {
         res.redirect('/');
     });
 
+const initializeDatabase = () => {
+    return new Promise((resolve, reject) => {
+        mongodb.intDb((err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve();
+            }
+        });
+    });
+};
 
 
+// This will only start the server if this file is run directly (not imported for testing)
+if (require.main === module) {
+    initializeDatabase()
+        .then(() => {
+            app.listen(port, () => {
+                console.log(`Running on port ${port}`)
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+} else {
+    //For testing, initialize database when app is imported
+    initializeDatabase().catch(console.error);
+}
 
-
-
-
-mongodb.intDb((err) => {
-    if (err) {
-        console.log(err);
-    }
-    else {
-        app.listen(port, () => { console.log(`Running on port ${port}`) });
-    }
-})
+module.exports = app;

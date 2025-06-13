@@ -1,15 +1,14 @@
 const mongodb = require('../data/database');
+const { ObjectId } = require('mongodb');
 
 const getAllAuthors = async (req, res) => {
     //#swagger.tags=['Authors']
     try {
         const authors = await mongodb
             .getDatabase()
-            .db('books')
             .collection('authors')
             .find({})
             .toArray();
-
         res.setHeader('Content-Type', 'application/json');
         res.status(200).json(authors);
     } catch (error) {
@@ -26,19 +25,25 @@ const getSingleAuthor = async (req, res) => {
     try {
         const authorId = req.params.id;
 
+        if (!ObjectId.isValid(authorId)) {
+            return res.status(400).json({
+                error: 'Bad Request',
+                message: 'Invalid author ID format'
+            });
+        }
+        
         const author = await mongodb
             .getDatabase()
-            .db('books')
             .collection('authors')
-            .findOne({ '_id': authorId });
-
+            .findOne({ _id: new ObjectId(authorId) });
+            
         if (!author) {
             return res.status(404).json({
-                error: 'Author Not Found',
+                error: 'Not Found',
                 message: 'Author not found'
             });
         }
-
+        
         res.setHeader('Content-Type', 'application/json');
         res.status(200).json(author);
     } catch (error) {
@@ -50,68 +55,74 @@ const getSingleAuthor = async (req, res) => {
     }   
 };
 
-const createAuthor = async(req, res) => {
+const createAuthor = async (req, res) => {
+    //#swagger.tags=['Authors']
     try {
-        //#swagger.tags=['Authors']
         const author = {
-            _id: req.body._id,
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             biography: req.body.biography,
             birthdate: req.body.birthdate
         };
 
-        const response = await mongodb.getDatabase().db('books').collection('authors').insertOne(author);
+        const response = await mongodb.getDatabase().collection('authors').insertOne(author);
         
-        if (response.acknowledged > 0) {
-            return res.status(201).json(author).message || 'Author created successfully';
+        if (response.acknowledged) {
+            res.status(201).json({ message: 'Author created successfully.' });
         } else {
-            res.status(500).json(response.error || 'Some error occured while creating the author.');
+            res.status(500).json({ error: 'Some error occurred while creating the author.' });
         }
-    }
-    catch (err) {
-        res.status(500).json({ error: err.message || "Error has occurred while creating the author" });
+    } catch (error) {
+        console.error('Error creating author:', error);
+        res.status(500).json({ error: 'Some error occurred while creating the author.' });
     }
 };
 
-const updateAuthor = async(req, res) => {
+const updateAuthor = async (req, res) => {
+    //#swagger.tags=['Authors']
     try {
-        //#swagger.tags=['Authors']
         const authorId = req.params.id;
         const author = {
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        biography: req.body.biography,
-        birthdate: req.body.birthdate
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            biography: req.body.biography,
+            birthdate: req.body.birthdate
         };
 
-        const response = await mongodb.getDatabase().db('books').collection('authors').replaceOne({'_id': authorId }, author);
+        const response = await mongodb
+            .getDatabase()
+            .collection('authors')
+            .replaceOne({ _id: new ObjectId(authorId) }, author);
 
         if (response.modifiedCount > 0) {
-            return res.status(200).json(author).message || 'Author updated successfully';
+            res.status(204).end();
         } else {
-            res.status(500).json(response.error || 'Some error occured while updating the author.');
+            res.status(500).json({ error: 'Some error occurred while updating the author.' });
         }
-        }
-    catch (err) {
-        res.status(500).json({ error: err.message || "Error has occurred while updating the author" });
+    } catch (error) {
+        console.error('Error updating author:', error);
+        res.status(500).json({ error: 'Some error occurred while updating the author.' });
     }
 };
 
-const deleteAuthor = async(req, res) => {
+const deleteAuthor = async (req, res) => {
+    //#swagger.tags=['Authors']
     try {
-        //#swagger.tags=['Authors']
         const authorId = req.params.id;
-        const response = await mongodb.getDatabase().db('books').collection('authors').deleteOne({'_id': authorId });
+        const response = await mongodb
+            .getDatabase()
+            .collection('authors')
+            .deleteOne({ _id: new ObjectId(authorId) });
+
         if (response.deletedCount > 0) {
-            return res.status(200).json({ message: 'Author deleted successfully' });
+            res.status(204).end();
         } else {
-            res.status(500).json(response.error || 'Some error occured while deleting the author.');
+            res.status(500).json({ error: 'Some error occurred while deleting the author.' });
         }
-    }
-    catch (err) {
-        res.status(500).json({ error: err.message || "Error has occurred while deleting the author" });
+    } catch (error) {
+        console.error('Error deleting author:', error);
+        res.status(500).json({ error: 'Some error occurred while deleting the author.' });
     }
 };
 
-module.exports = { getAllAuthors, getSingleAuthor, createAuthor, updateAuthor, deleteAuthor }
+module.exports = { getAllAuthors, getSingleAuthor, createAuthor, updateAuthor, deleteAuthor };

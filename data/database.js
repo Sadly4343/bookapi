@@ -12,7 +12,10 @@ const intDb = (callback) => {
         console.log('Db is already init');
         return callback(null, database);
     }
-    mongoClient.connect(process.env.MONGODB_URI)
+
+    const mongoUri = globalThis.__MONGO_URI__ || process.env.MONGODB_URI;
+
+    mongoClient.connect(mongoUri)
         .then((client) => {
             database = client;
             callback(null, database);
@@ -27,7 +30,12 @@ const getDatabase = () => {
     if (!database) {
         throw Error('database not found')
     }
-    return database;
+
+    if (globalThis.__MONGO_DB_NAME__) {
+    return database.db(globalThis.__MONGO_DB_NAME__);
+}
+
+    return database.db();
 }
 
 module.exports = {

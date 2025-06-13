@@ -6,7 +6,7 @@ const getAllStores = async (req, res) => {
     try {
         //#swagger.tag=['store']
         console.log('Called');
-        const result = await mongodb.getDatabase().db().collection('stores').find();
+        const result = await mongodb.getDatabase().collection('stores').find();
         result.toArray().then((store) => {
             res.setHeader('Content-Type', 'application/json');
             res.status(200).json(store);
@@ -21,7 +21,7 @@ const getSingleStore = async (req, res) => {
     try {
         //#swagger.tag=['store']
         const storeId = new ObjectId(req.params.id);
-        const result = await mongodb.getDatabase().db().collection('stores').findOne({ '_id': storeId });
+        const result = await mongodb.getDatabase().collection('stores').findOne({ '_id': storeId });
         if (!result) {
             return res.status(404).json({error: "Store not found"});
         }
@@ -43,7 +43,7 @@ const createStore = async (req, res) => {
         isbn: req.body.isbn
     }
 
-    const response = await mongodb.getDatabase().db().collection('stores').insertOne(store);
+    const response = await mongodb.getDatabase().collection('stores').insertOne(store);
 
     if (response.acknowledged > 0) {
          return res.status(201).json(store).message || 'Store created successfully';
@@ -68,7 +68,7 @@ const updateStore = async (req, res) => {
         isbn: req.body.isbn
     }
 
-    const response = await mongodb.getDatabase().db().collection('stores').replaceOne({ '_id': storeId }, store);
+    const response = await mongodb.getDatabase().collection('stores').replaceOne({ '_id': storeId }, store);
 
     if (response.modifiedCount > 0) {
          return res.status(200).json(store).message || 'Store updated successfully';
@@ -86,7 +86,7 @@ const deleteStore = async (req, res) => {
 
     //#swagger.tag=['stores']
     const storeId = new ObjectId(req.params.id);
-    const response = await mongodb.getDatabase().db().collection('stores').deleteOne({ '_id': storeId });
+    const response = await mongodb.getDatabase().collection('stores').deleteOne({ '_id': storeId });
     if (response.deletedCount > 0) {
         return res.status(200).json({ message: 'Store deleted successfully' });
     } else {

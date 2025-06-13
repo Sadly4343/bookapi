@@ -33,7 +33,7 @@ router.get('/', (req, res) => {
 router.use('/books', require('./books'));
 router.use('/authors', require('./authors'));
 router.use('/users', require('./users'));
-router.use('/stores', require('./store'));
+router.use('/store', require('./store'));
 
 
 // GitHub auth routes
