@@ -93,7 +93,25 @@ const usersValidationRules = () => {
          body('isbn')
             .notEmpty().withMessage('ISBN is required')
             .matches(/^[0-9\-Xx]+$/).withMessage('ISBN must be a number, dash, or X only')
-            .isLength({ min: 10, max:13 }).withMessage('ISBN must be in valid format between 10-13 numbers long.'),
+            .isLength({ min: 10, max:13 }).withMessage('ISBN must be in valid format between 10-13 numbers long.')
+    ]
+}
+
+const storesValidationRules = () => {
+    return [
+        body('name')
+            .notEmpty().withMessage('Name is required')
+            .isLength({ min: 2 }).withMessage('Name must be at least 2 letters long'),
+        body('address')
+            .notEmpty().withMessage('Address is required')
+            .isLength({ min: 5 }).withMessage('Address must be at least 5 letters long'),
+        body('website')
+            .notEmpty().withMessage('Website is required')
+            .isURL().withMessage('Must be a valid URL'),
+         body('isbn')
+            .notEmpty().withMessage('ISBN is required')
+            .matches(/^[0-9\-Xx]+$/).withMessage('ISBN must be a number, dash, or X only')
+            .isLength({ min: 10, max:13 }).withMessage('ISBN must be in valid format between 10-13 numbers long.')
     ]
 }
 
@@ -115,5 +133,8 @@ const validate = (req, res, next) => {
 module.exports = {
     bookValidationRules,
     authorValidationRules,
+    userValidationRules,
+    usersValidationRules,
+    storesValidationRules,
     validate
 }
