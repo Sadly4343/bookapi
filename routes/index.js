@@ -17,13 +17,15 @@ router.get('/', (req, res) => {
     } else {
         res.send(`
             <h1>Welcome to Team 06 CSE341 Class Book API</h1>
-            <h2>You are not logged in.</h2>
             <h3>GitHub Login</h3>
             <p>To access the API, please log in with your GitHub account.</p>
             <p>Once logged in, you will be able to access the API endpoints.</p>
             <p>Click the button below to log in:</p>
             <a href="/login" style="padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Login with GitHub</a>
-            <p>Or, if you are not logged in, you can view the API documentation at <a href="/api-docs">API Documentation</a>.</p>
+            <p>Click the button below to log out:</p>
+            <a href="/logout" style="padding: 10px 20px; background-color:rgb(255, 30, 0); color: white; text-decoration: none; border-radius: 5px;">Logout</a>
+             <p>Or, if you are not logged in, you can view the API documentation at <a href="/api-docs" target="_blank">API Documentation</a>.</p>
+
         `);
     }
 });
