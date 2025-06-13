@@ -40,19 +40,6 @@ router.use('/stores', require('./store'));
 //router.get('/login', passport.authenticate('github', { scope: ['user:user'] }));
 router.get('/login', passport.authenticate('github'), (req, res) => {});
 
-//router.get('/login', passport.authenticate('github'));
-
-
-router.get('/github/callback', 
-    passport.authenticate('github', { 
-        failureRedirect: '/api-docs',
-        failureMessage: true 
-    }),
-    (req, res) => {
-        console.log('Successful authentication, user:', req.user);
-        res.redirect('/');
-    }
-);
 
  router.get('/logout', (req, res, next) => {
     req.logout((err) => {
