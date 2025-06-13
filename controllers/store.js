@@ -22,6 +22,9 @@ const getSingleStore = async (req, res) => {
         //#swagger.tag=['store']
         const storeId = new ObjectId(req.params.id);
         const result = await mongodb.getDatabase().db().collection('stores').findOne({ '_id': storeId });
+        if (!result) {
+            return res.status(404).json({error: "Store not found"});
+        }
         res.setHeader('Content-Type', 'application/json');
         res.status(200).json(result);
     }
