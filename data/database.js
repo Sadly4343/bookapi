@@ -35,14 +35,18 @@ const intDb = (callback) => {
 
 const getDatabase = () => {
     if (!database) {
-        throw Error('database not found')
+        throw new Error('Database not initialized');
     }
 
+    // For unit testing
     if (globalThis.__MONGO_DB_NAME__) {
-    return database.db(globalThis.__MONGO_DB_NAME__);
-}
-
-    return database.db();
+        return database.db(globalThis.__MONGO_DB_NAME__);
+    }
+    
+    // For production/development - use default database from connection string
+    // or specify a database name via environment variable
+    const dbName = process.env.MONGODB_DB_NAME;
+    return dbName ? database.db(dbName) : database.db();
 }
 
 module.exports = {
