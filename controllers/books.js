@@ -23,11 +23,13 @@ const getSingle = async (req, res) => {
         console.log('Called');
         const bookId = new ObjectId(req.params.id);
         const result = await mongodb.getDatabase().db().collection('books').find({ '_id': bookId });
-          if (!result) {
+        if (!result) {
             return res.status(404).json({error: "Book not found"});
         }
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).json(result);
+        result.toArray().then((book) => {
+            res.setHeader('Content-Type', 'application/json');
+            res.status(200).json(book[0]);
+        });
     }
     catch (err) {
         res.status(500).json({error: err.message || "Error occured retrieving a book"})
