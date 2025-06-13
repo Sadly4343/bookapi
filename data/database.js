@@ -15,15 +15,22 @@ const intDb = (callback) => {
 
     const mongoUri = globalThis.__MONGO_URI__ || process.env.MONGODB_URI;
 
+    if (!mongoUri) {
+        return callback(new Error('MONGODB_URI is not defined'));
+    }
+
+    console.log('Connecting to MongoDB...');
+    
     mongoClient.connect(mongoUri)
         .then((client) => {
             database = client;
+            console.log('MongoDB connected successfully');
             callback(null, database);
-
         })
         .catch((err) => {
+            console.error('MongoDB connection error:', err);
             callback(err);
-        })
+        });
 }
 
 const getDatabase = () => {

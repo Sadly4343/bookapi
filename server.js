@@ -13,7 +13,7 @@ const port = process.env.PORT || 3000;
 
 
 app.use
-    app.use(bodyParser.json())
+    .use(bodyParser.json())
     .use(session({
         secret: "secret",
         resave: false,
@@ -45,7 +45,7 @@ passport.use(new GitHubStrategy(
     },
     async function(accessToken, refreshToken, profile, done) {
     try {
-        const db = mongodb.getDatabase().db();
+        const db = mongodb.getDatabase();
 
         let user = await db.collection('users').findOne({
             githubId: profile.id
