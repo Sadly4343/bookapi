@@ -606,7 +606,7 @@
     "/store/": {
       "get": {
         "tags": [
-          "Store"
+          "Stores"
         ],
         "description": "",
         "produces": [
@@ -623,7 +623,7 @@
       },
       "post": {
         "tags": [
-          "Store"
+          "Stores"
         ],
         "description": "",
         "parameters": [
