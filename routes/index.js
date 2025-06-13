@@ -16,10 +16,10 @@ router.use('/store', require('./store'));
 
 
 
-router.get('/login', passport.authenticate('github', { scope: ['user:user'] }));
 
 
- router.get('/login', passport.authenticate('github'), (req, res) => {});
+
+router.get('/login', passport.authenticate('github'), (req, res) => {});
 
 router.get('/logout', function(req, res, next) {
     req.logout(function(err) {
