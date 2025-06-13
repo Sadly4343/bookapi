@@ -36,3 +36,6 @@ content-type: application/json
 ###
 
 DELETE http://localhost:3000/contacts/681f153c9c4757f3776e3ac7
+
+### get users
+GET http://localhost:3000/users
