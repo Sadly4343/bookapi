@@ -89,11 +89,7 @@ const usersValidationRules = () => {
             .matches(/[\W_]/).withMessage('Password must contain at least one special character'),
         body('role')
             .notEmpty().withMessage('Role is required')
-            .isIn(['user', 'admin']).withMessage('Role must be either user or admin'),
-         body('isbn')
-            .notEmpty().withMessage('ISBN is required')
-            .matches(/^[0-9\-Xx]+$/).withMessage('ISBN must be a number, dash, or X only')
-            .isLength({ min: 10, max:13 }).withMessage('ISBN must be in valid format between 10-13 numbers long.')
+            .isIn(['user', 'admin']).withMessage('Role must be either user or admin')
     ]
 }
 
