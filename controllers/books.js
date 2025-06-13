@@ -7,9 +7,9 @@ const getAll = async (req, res) => {
         //#swagger.tag=['books']
         console.log('Called');
         const result = await mongodb.getDatabase().db().collection('books').find();
-        result.toArray().then((books) => {
+        result.toArray().then((book) => {
             res.setHeader('Content-Type', 'application/json');
-            res.status(200).json(books);
+            res.status(200).json(book);
         });
     }
     catch (err) {
@@ -22,11 +22,12 @@ const getSingle = async (req, res) => {
         //#swagger.tag=['books']
         console.log('Called');
         const bookId = new ObjectId(req.params.id);
-        const result = await mongodb.getDatabase().db().collection('books').find({ _id: bookId});
-        result.toArray().then((books) => {
-            res.setHeader('Content-Type', 'application/json');
-            res.status(200).json(books[0]);
-        });
+        const result = await mongodb.getDatabase().db().collection('books').find({ '_id': bookId });
+          if (!result) {
+            return res.status(404).json({error: "Book not found"});
+        }
+        res.setHeader('Content-Type', 'application/json');
+        res.status(200).json(result);
     }
     catch (err) {
         res.status(500).json({error: err.message || "Error occured retrieving a book"})
@@ -51,8 +52,8 @@ const createBook = async (req, res) => {
 
     const response = await mongodb.getDatabase().db().collection('books').insertOne(book);
 
-    if (response.acknowledged) {
-        res.status(201).send();
+    if (response.acknowledged > 0) {
+        return res.status(201).json(book).message || 'Book created successfully';
     } else {
         res.status(500).json(response.error || 'Error occured updating book');
     }
@@ -80,10 +81,10 @@ const updateBook = async (req, res) => {
     
     }
 
-    const response = await mongodb.getDatabase().db().collection('books').replaceOne({ _id: bookId}, book);
+    const response = await mongodb.getDatabase().db().collection('books').replaceOne({ '_id': bookId}, book);
 
-    if (response.acknowledged) {
-        res.status(201).send();
+    if (response.modifiedCount > 0) {
+        return res.status(201).json(book).message || 'Book updated successfully';
     } else {
         res.status(500).json(response.error || 'Error occured updating book');
     }
@@ -99,14 +100,14 @@ const deleteBook = async (req, res) => {
     
     //#swagger.tag=['books']
     const bookId = new ObjectId(req.params.id);
-    const response = await mongodb.getDatabase().db().collection('books').deleteOne({ _id: bookId});
+    const response = await mongodb.getDatabase().db().collection('books').deleteOne({ '_id': bookId });
     if (response.deletedCount > 0) {
-        res.status(204).send();
+         return res.status(200).json({ message: 'Book deleted successfully' });
     } else {
-        res.status(500).json(response.error || 'Error occured while deleting car');
+        res.status(500).json(response.error || 'Error occured while deleting book');
     }
 } catch (err) {
-    res.status(500).json({error: err.message || "Error has occured deleting car" })
+    res.status(500).json({error: err.message || "Error has occured deleting book" })
 }
 }
 
