@@ -24,7 +24,7 @@ router.get('/', (req, res) => {
             <a href="/login" style="padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Login with GitHub</a>
             <p>Click the button below to log out:</p>
             <a href="/logout" style="padding: 10px 20px; background-color:rgb(255, 30, 0); color: white; text-decoration: none; border-radius: 5px;">Logout</a>
-             <p>Or, if you are not logged in, you can view the API documentation at <a href="/api-docs" target="_blank">API Documentation</a>.</p>
+            <p>Or, if you are not logged in, you can view the API documentation at <a href="/api-docs" target="_blank">API Documentation</a>.</p>
 
         `);
     }
