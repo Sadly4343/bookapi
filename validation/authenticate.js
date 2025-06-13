@@ -28,7 +28,7 @@ const isAuthenticated = (req, res, next) => {
     }
 };
 
-module.exports = isAuthenticated;
+module.exports = { isAuthenticated };
 
 /* const isAuthenticated = (req, res, next) => {
     if (req.session.user === undefined) {
