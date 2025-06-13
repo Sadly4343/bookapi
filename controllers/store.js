@@ -45,7 +45,7 @@ const createStore = async (req, res) => {
 
     const response = await mongodb.getDatabase().db().collection('stores').insertOne(store);
 
-    if (response.acknowledged) {
+    if (response.acknowledged > 0) {
         res.status(201).send();
     } else {
         res.status(500).json(response.error || 'Error occured updating Store');
@@ -70,7 +70,7 @@ const updateStore = async (req, res) => {
 
     const response = await mongodb.getDatabase().db().collection('stores').replaceOne({ '_id': storeId }, store);
 
-    if (response.acknowledged) {
+    if (response.modifiedCount > 0) {
         res.status(201).send();
     } else {
         res.status(500).json(response.error || 'Error occured updating Store');
