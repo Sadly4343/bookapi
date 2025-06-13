@@ -30,6 +30,13 @@ router.get('/', (req, res) => {
     }
 });
 
+router.get('/github/callback', passport.authenticate('github', {
+    failureRedirect: '/api-docs'
+}), (req, res) => {
+    req.session.user = req.user;
+    res.redirect('/');
+});
+
 router.use('/books', require('./books'));
 router.use('/authors', require('./authors'));
 router.use('/users', require('./users'));

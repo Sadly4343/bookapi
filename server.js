@@ -8,21 +8,17 @@ const cors = require('cors');
 
 
 const app = express();
-
 const port = process.env.PORT || 3000;
 
-
 app.use
-    app.use(bodyParser.json())
+    .use(bodyParser.json())
     .use(session({
         secret: "secret",
         resave: false,
         saveUninitialized: true,
     }))
     .use(passport.initialize())
-
     .use(passport.session())
-
     .use((req, res, next) => {
          res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader(
@@ -35,7 +31,7 @@ app.use
 
     .use(cors({methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']}))
     .use(cors({ origin: '*'}))
-    app.use('/', require('./routes'));
+    .use('/', require('./routes'));
 
 passport.use(new GitHubStrategy(
     {
@@ -57,12 +53,12 @@ passport.deserializeUser((user, done) => {
 
 app.get('/', (req, res) => { res.send(req.session.user !== undefined ? `Logged in ${req.session.user.displayName}` : "Logged out")})
 
-app.get('/github/callback', passport.authenticate('github', {
-    failureRedirect: '/api-docs', session: false}),
-    (req, res) => {
-        req.session.user = req.user;
-        res.redirect('/');
-    });
+// app.get('/github/callback', passport.authenticate('github', {
+//     failureRedirect: '/api-docs', session: false}),
+//     (req, res) => {
+//         req.session.user = req.user;
+//         res.redirect('/');
+//     });
 
 const initializeDatabase = () => {
     return new Promise((resolve, reject) => {
