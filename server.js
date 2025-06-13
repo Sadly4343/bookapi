@@ -94,18 +94,25 @@ app.get('/', (req, res) => {
     }
 });
 
-app.get('/github/callback', passport.authenticate('github', {
-    failureRedirect: '/api-docs'}),
+app.get('/github/callback', 
+    passport.authenticate('github', { failureRedirect: '/api-docs' }),
     (req, res) => {
-        req.session.user = {
-            ...req.user.dbUser,
-            githubProfile: {
-                username: req.user.username,
-                displayName: req.user.displayName
-            }
-        };
-        res.redirect('/');
-    });
+        try {
+            console.log('Callback received, user:', req.user);
+            req.session.user = {
+                ...req.user.dbUser,
+                githubProfile: {
+                    username: req.user.username,
+                    displayName: req.user.displayName
+                }
+            };
+            res.redirect('/');
+        } catch (error) {
+            console.error('Callback error:', error);
+            res.status(500).json({ error: 'Authentication failed', details: error.message });
+        }
+    }
+);
 
 const initializeDatabase = () => {
     return new Promise((resolve, reject) => {
