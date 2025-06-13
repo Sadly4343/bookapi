@@ -7,9 +7,9 @@ const getAllUsers = async (req, res) => {
         //#swagger.tag=['users']
         console.log('Called');
         const result = await mongodb.getDatabase().db().collection('users').find();
-        result.toArray().then((users) => {
+        result.toArray().then((user) => {
             res.setHeader('Content-Type', 'application/json');
-            res.status(200).json(users);
+            res.status(200).json(user);
         });
     }
     catch (err) {
