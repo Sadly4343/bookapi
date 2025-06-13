@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
         res.send(`
             <h1>Welcome to Team 06 CSE341 Class Book API</h1>
             <h3>GitHub Login</h3>
-            <p>You are not logged in.</p>
+            <h2>You are not logged in.</h2>
             <p>To access the API, please log in with your GitHub account.</p>
             <p>Once logged in, you will be able to access the API endpoints.</p>
             <p>Click the button below to log in:</p>
