@@ -53,6 +53,9 @@
     },
     "/books/": {
       "get": {
+        "tags": [
+          "Books"
+        ],
         "description": "",
         "produces": [
           "application/json"
@@ -67,6 +70,9 @@
         }
       },
       "post": {
+        "tags": [
+          "Books"
+        ],
         "description": "",
         "parameters": [
           {
@@ -121,6 +127,9 @@
     },
     "/books/{id}": {
       "get": {
+        "tags": [
+          "Books"
+        ],
         "description": "",
         "produces": [
           "application/json"
@@ -149,6 +158,9 @@
         }
       },
       "post": {
+        "tags": [
+          "Books"
+        ],
         "description": "",
         "parameters": [
           {
@@ -213,6 +225,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "Books"
+        ],
         "description": "",
         "parameters": [
           {
@@ -409,6 +424,9 @@
     },
     "/users/": {
       "get": {
+        "tags": [
+          "Users"
+        ],
         "description": "",
         "produces": [
           "application/json"
@@ -423,6 +441,9 @@
         }
       },
       "post": {
+        "tags": [
+          "Users"
+        ],
         "description": "",
         "parameters": [
           {
@@ -465,6 +486,9 @@
     },
     "/users/{id}": {
       "get": {
+        "tags": [
+          "Users"
+        ],
         "description": "",
         "produces": [
           "application/json"
@@ -493,6 +517,9 @@
         }
       },
       "put": {
+        "tags": [
+          "Users"
+        ],
         "description": "",
         "parameters": [
           {
@@ -545,6 +572,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "Users"
+        ],
         "description": "",
         "parameters": [
           {
@@ -575,6 +605,9 @@
     },
     "/store/": {
       "get": {
+        "tags": [
+          "Store"
+        ],
         "description": "",
         "produces": [
           "application/json"
@@ -589,6 +622,9 @@
         }
       },
       "post": {
+        "tags": [
+          "Store"
+        ],
         "description": "",
         "parameters": [
           {
@@ -631,6 +667,9 @@
     },
     "/store/{id}": {
       "get": {
+        "tags": [
+          "Stores"
+        ],
         "description": "",
         "produces": [
           "application/json"
@@ -656,6 +695,9 @@
         }
       },
       "put": {
+        "tags": [
+          "Stores"
+        ],
         "description": "",
         "parameters": [
           {
@@ -702,6 +744,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "Stores"
+        ],
         "description": "",
         "parameters": [
           {
