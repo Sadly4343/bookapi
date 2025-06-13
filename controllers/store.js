@@ -22,9 +22,9 @@ const getSingleStore = async (req, res) => {
         //#swagger.tag=['store']
         const storeId = new ObjectId(req.params.id);
         const result = await mongodb.getDatabase().db().collection('stores').find({ '_id': storeId });
-        result.toArray().then((stores) => {
+        result.toArray().then((store) => {
             res.setHeader('Content-Type', 'application/json');
-            res.status(200).json(stores[0]);
+            res.status(200).json(store[0]);
         });
     }
     catch (err) {
