@@ -46,7 +46,7 @@ const createStore = async (req, res) => {
     const response = await mongodb.getDatabase().db().collection('stores').insertOne(store);
 
     if (response.acknowledged > 0) {
-        res.status(201).send();
+         return res.status(201).json(store).message || 'Store created successfully';
     } else {
         res.status(500).json(response.error || 'Error occured updating Store');
     }
@@ -71,7 +71,7 @@ const updateStore = async (req, res) => {
     const response = await mongodb.getDatabase().db().collection('stores').replaceOne({ '_id': storeId }, store);
 
     if (response.modifiedCount > 0) {
-        res.status(201).send();
+         return res.status(200).json(store).message || 'Store updated successfully';
     } else {
         res.status(500).json(response.error || 'Error occured updating Store');
     }
@@ -88,7 +88,7 @@ const deleteStore = async (req, res) => {
     const storeId = new ObjectId(req.params.id);
     const response = await mongodb.getDatabase().db().collection('stores').deleteOne({ '_id': storeId });
     if (response.deletedCount > 0) {
-        res.status(204).send();
+        return res.status(200).json({ message: 'Store deleted successfully' });
     } else {
         res.status(500).json(response.error || 'Error occured while deleting Store');
     }
