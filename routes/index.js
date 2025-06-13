@@ -6,28 +6,7 @@ const router = require('express').Router();
 router.use('/', require('./swagger'));
 
 router.get('/', (req, res) => {
-    //res.send('hello world')
-     if (req.isAuthenticated()) {
-        res.send(`
-            <h1>Welcome ${req.user.displayName}!</h1>
-            <h3>Profile URL: ${req.user.profileUrl}</h3>
-            <p>You are logged in via GitHub</p><br>
-            <a href="/logout">Logout</a>
-        `);
-    } else {
-        res.send(`
-            <h1>Welcome to Team 06 CSE341 Class Book API</h1>
-            <h3>GitHub Login</h3>
-            <p>To access the API, please log in with your GitHub account.</p>
-            <p>Once logged in, you will be able to access the API endpoints.</p>
-            <p>Click the button below to log in:</p>
-            <a href="/login" style="padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Login with GitHub</a>
-            <p>Click the button below to log out:</p>
-            <a href="/logout" style="padding: 10px 20px; background-color:rgb(255, 30, 0); color: white; text-decoration: none; border-radius: 5px;">Logout</a>
-            <p>Or, if you are not logged in, you can view the API documentation at <a href="/api-docs" target="_blank">API Documentation</a>.</p>
-
-        `);
-    }
+    res.send('hello world')
 });
 
 router.use('/books', require('./books'));
@@ -36,32 +15,18 @@ router.use('/users', require('./users'));
 router.use('/store', require('./store'));
 
 
-// GitHub auth routes
-//router.get('/login', passport.authenticate('github', { scope: ['user:user'] }));
-router.get('/login', passport.authenticate('github'), (req, res) => {});
+
+router.get('/login', passport.authenticate('github', { scope: ['user:user'] }));
 
 
- router.get('/logout', (req, res, next) => {
-    req.logout((err) => {
-        if (err) {
-            console.error('Logout error:', err);
-            return next(err);
-        }
-        req.session.destroy(() => {
-            res.clearCookie('connect.sid');
-            res.redirect('/');
-        });
-    });
-}); 
-
-/* router.get('/login', passport.authenticate('github'), (req, res) => {});
+ router.get('/login', passport.authenticate('github'), (req, res) => {});
 
 router.get('/logout', function(req, res, next) {
     req.logout(function(err) {
         if (err) { return next(err);}
         res.redirect('/')
     })
-}) */
+}) 
 
 
 module.exports = router;
