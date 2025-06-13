@@ -579,7 +579,7 @@
         }
       }
     },
-    "/stores/": {
+    "/store/": {
       "get": {
         "tags": [
           "Stores"
@@ -641,7 +641,7 @@
         }
       }
     },
-    "/stores/{id}": {
+    "/store/{id}": {
       "get": {
         "tags": [
           "Stores"
