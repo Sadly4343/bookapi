@@ -1,7 +1,7 @@
 const express = require('express');
 const { storesValidationRules, validate } = require('../validation/validation');
 const router = express.Router();
-const storesController = require('../controllers/stores');
+const storesController = require('../controllers/store');
 const { isAuthenticated } = require('../validation/authenticate');
 
 

@@ -4,10 +4,10 @@ const ObjectId = require('mongodb').ObjectId;
 
 const getAllStores = async (req, res) => {
     try {
-        //#swagger.tag=['sstore']
+        //#swagger.tag=['store']
         console.log('Called');
         const result = await mongodb.getDatabase().db().collection('stores').find();
-        result.toArray().then((stores) => {
+        result.toArray().then((store) => {
             res.setHeader('Content-Type', 'application/json');
             res.status(200).json(store);
         });

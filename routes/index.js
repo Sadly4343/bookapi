@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 router.use('/books', require('./books'));
 router.use('/authors', require('./authors'));
 router.use('/users', require('./users'));
-router.use('/stores', require('./stores'));
+router.use('/stores', require('./store'));
 
 router.get('/login', passport.authenticate('github'), (req, res) => {});
 
