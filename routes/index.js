@@ -36,8 +36,9 @@ router.use('/stores', require('./store'));
 
 // GitHub auth routes
 //router.get('/login', passport.authenticate('github', { scope: ['user:user'] }));
+router.get('/login', passport.authenticate('github'), (req, res) => {});
 
-router.get('/login', passport.authenticate('github'));
+//router.get('/login', passport.authenticate('github'));
 
 
 router.get('/github/callback', 
