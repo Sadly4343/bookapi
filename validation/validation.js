@@ -26,7 +26,7 @@ const bookValidationRules = () => {
             .isLength({ min: 2 }).withMessage('Title must be at least 2 characters long'),
         body('authorId')
             .notEmpty().withMessage('authorId is required')
-            .isLength({ min: 7 }).withMessage('authorId must be at least 7 characters long'),
+            .isMongoId().withMessage('Author ID must be a valid Mongo ID'),
         body('genre')
             .notEmpty().withMessage('Genre is required')
             .isLength({ min: 2 }).withMessage('Genre must be at least 2 characters long'),
@@ -50,25 +50,6 @@ const bookValidationRules = () => {
     ]
 }
 
-const userValidationRules = () => {
-    return [
-        body('firstName')
-            .notEmpty().withMessage('First Name is required')
-
-            .isLength({ min: 2 }).withMessage('First Name must be at least 2 letters long'),
-        body('lastName')
-            .notEmpty().withMessage('Last Name is required')
-
-            .isLength({ min: 2 }).withMessage('Last Name must be at least 2 letters long'),
-        body('biography')
-            .notEmpty().withMessage('Biography is a required instance')
-
-            .isLength({ min: 10 }).withMessage('Biography must be at least 10 letters long'),
-        body('birthdate')
-            .notEmpty().withMessage('Birth Date is required')
-            .isISO8601().withMessage('Must be in a valid format for the birth Date EX: 1982-11-11')
-    ]
-}
 
 const usersValidationRules = () => {
     return [
@@ -133,7 +114,6 @@ const validate = (req, res, next) => {
 module.exports = {
     bookValidationRules,
     authorValidationRules,
-    userValidationRules,
     usersValidationRules,
     storesValidationRules,
     validate
