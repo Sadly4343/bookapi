@@ -15,6 +15,7 @@ const port = process.env.PORT || 3000;
         secret: "secret",
         resave: false,
         saveUninitialized: true,
+        name: 'connct.sid',
         cookie:  {
             secure: false,
             httpOnly: true,
