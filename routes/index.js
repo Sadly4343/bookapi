@@ -11,31 +11,30 @@ router.get('/logout', function(req, res, next) {
     console.log('Logging out session:', sessionId);
 
     req.logout(function(err) {
-        if (err) { 
-            console.error('Passport logout error:', err);
-            return next(err);}
-
+        if (err) return next(err);
+        
         req.session.user = null;
-
+        
+        Object.keys(req.cookies || {}).forEach(cookieName => {
+            res.clearCookie(cookieName);
+        });
+        
         req.session.destroy((err) => {
-            if (err) {
-                console.error('Session destroy error:', err);
-                return next(err);
-            }
-
-            res.clearCookie('sessionId');
-
-            res.set({
-                'Cache-Control': 'no-cache, no-store, must-revalidate',
-                'Pragma': 'no-cache',
-                'Expires': '0'
-            });
-
-            console.log('Session destroyed, redirecting to home');
-            res.redirect('/');
-        });     
+            if (err) return next(err);
+            
+            res.send(`
+                <script>
+                    // Clear any localStorage/sessionStorage
+                    localStorage.clear();
+                    sessionStorage.clear();
+                    
+                    // Force redirect after clearing storage
+                    window.location.href = '/';
+                </script>
+            `);
+        });
     });
-}); 
+});
 
 router.use('/api-docs', isAuthenticated);
 
