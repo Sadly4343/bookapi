@@ -97,9 +97,18 @@ app.get('/', (req, res) => {
             </body>
             </html>
         `);
+    // } else {
+    //     res.redirect('/login');
+    // }
     } else {
-        res.redirect('/login');
+        // Instead of redirecting to /login, show a test page
+        res.send(`
+            <h1>Logged Out Successfully!</h1>
+            <p>Session cleared. You would normally be redirected to GitHub login.</p>
+            <a href="/login">Click here to log in again</a>
+        `);
     }
+
 });
 
 app.get('/github/callback', passport.authenticate('github', {
