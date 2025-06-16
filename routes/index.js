@@ -9,8 +9,16 @@ router.get('/login', passport.authenticate('github'), (req, res) => {});
 router.get('/logout', function(req, res, next) {
     req.logout(function(err) {
         if (err) { return next(err);}
-        res.redirect('/')
-    })
+
+        req.session.user = null;
+        req.session.destroy((err) => {
+            if (err) {
+                return next(err);
+            }
+            res.clearCookie('connect.sid');
+            res.redirect('/');
+        });     
+    });
 }); 
 
 router.use('/api-docs', isAuthenticated);
