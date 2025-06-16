@@ -10,9 +10,7 @@ const app = express();
 
 const port = process.env.PORT || 3000;
 
-
-app.use
-    .use(bodyParser.json())
+ app.use(bodyParser.json())
     .use(session({
         secret: "secret",
         resave: false,
