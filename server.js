@@ -6,23 +6,20 @@ const session = require('express-session');
 const GitHubStrategy = require('passport-github2').Strategy;
 const cors = require('cors');
 
-
 const app = express();
 
 const port = process.env.PORT || 3000;
 
 
 app.use
-    app.use(bodyParser.json())
+    .use(bodyParser.json())
     .use(session({
         secret: "secret",
         resave: false,
         saveUninitialized: true,
     }))
     .use(passport.initialize())
-
     .use(passport.session())
-
     .use((req, res, next) => {
          res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader(
@@ -35,7 +32,7 @@ app.use
 
     .use(cors({methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']}))
     .use(cors({ origin: '*'}))
-    app.use('/', require('./routes'));
+    .use('/', require('./routes'));
 
 passport.use(new GitHubStrategy(
     {
@@ -55,7 +52,51 @@ passport.deserializeUser((user, done) => {
     done(null, user)
 });
 
-app.get('/', (req, res) => { res.send(req.session.user !== undefined ? `Logged in ${req.session.user.displayName}` : "Logged out")})
+app.get('/', (req, res) => { 
+    if (req.session.user) {
+        res.send(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Welcome</title>
+                <style>
+                    body { 
+                        font-family: Arial, sans-serif; 
+                        max-width: 800px; 
+                        margin: 50px auto; 
+                        padding: 20px;
+                        text-align: center;
+                    }
+                    .nav-links { margin: 30px 0; }
+                    .nav-links a { 
+                        display: inline-block;
+                        margin: 10px 15px; 
+                        padding: 10px 20px;
+                        background-color: #007bff;
+                        color: white;
+                        text-decoration: none;
+                        border-radius: 5px;
+                    }
+                    .nav-links a:hover { background-color: #0056b3; }
+                    .logout { background-color: #dc3545 !important; }
+                    .logout:hover { background-color: #c82333 !important; }
+                </style>
+            </head>
+            <body>
+                <h1>Welcome, ${req.session.user.displayName}!</h1>
+                <p>You are successfully logged in.</p>
+                
+                <div class="nav-links">
+                    <a href="/api-docs">View API Documentation</a>
+                    <a href="/logout" class="logout">Logout</a>
+                </div>
+            </body>
+            </html>
+        `);
+    } else {
+        res.redirect('/login');
+    }
+});
 
 app.get('/github/callback', passport.authenticate('github', {
     failureRedirect: '/api-docs'}),
