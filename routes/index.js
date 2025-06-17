@@ -76,4 +76,12 @@ router.use('/authors', isAuthenticated, require('./authors'));
 router.use('/users', isAuthenticated, require('./users'));
 router.use('/store', require('./store'));
 
+// Test endpoint for mocking authentication is test
+if (process.env.NODE_ENV === 'test') {
+    router.post('/test-login', (req, res) => {
+        req.session.user = req.body.mockUser;
+        res.status(200).json({ message: 'Test login successful' });
+    });
+}
+
 module.exports = router;

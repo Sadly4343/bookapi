@@ -18,11 +18,9 @@ describe('Authors API', () => {
   });
 
   beforeEach(async () => {
-    // Generate valid ObjectIds for test data
     testAuthor1Id = new ObjectId();
     testAuthor2Id = new ObjectId();
 
-    // Insert test data with valid ObjectIds
     const authors = db.collection('authors');
     await authors.insertMany([
       { 
@@ -43,12 +41,24 @@ describe('Authors API', () => {
   });
 
   afterEach(async () => {
-    // Clean up test data
     await db.collection('authors').deleteMany({});
   });
 
+  // Helper function to create authenticated session
+  const getAuthenticatedAgent = async () => {
+    const agent = request.agent(app);
+    
+    // Set up session with mock user data
+    await agent
+      .post('/test-login')
+      .send({ mockUser: { displayName: 'Test User' } });
+
+    return agent;
+  };
+
   test('GET /authors should return all authors', async () => {
-    const response = await request(app)
+    const agent = await getAuthenticatedAgent();
+    const response = await agent
       .get('/authors')
       .expect(200);
 
@@ -58,8 +68,9 @@ describe('Authors API', () => {
   });
 
   test('GET /authors/:id should return a specific author', async () => {
-    const response = await request(app)
-      .get(`/authors/${testAuthor1Id}`) // Use the valid ObjectId
+    const agent = await getAuthenticatedAgent();
+    const response = await agent
+      .get(`/authors/${testAuthor1Id}`)
       .expect(200);
 
     expect(response.body.firstName).toBe('Test');
@@ -68,15 +79,30 @@ describe('Authors API', () => {
   });
 
   test('GET /authors/:id should return 404 for non-existent author', async () => {
+    const agent = await getAuthenticatedAgent();
     const fakeId = new ObjectId(); // Generate a valid but non-existent ObjectId
-    await request(app)
+    await agent
       .get(`/authors/${fakeId}`)
       .expect(404);
   });
 
   test('GET /authors/:id should return 400 for invalid ObjectId format', async () => {
-    await request(app)
+    const agent = await getAuthenticatedAgent();
+    await agent
       .get('/authors/invalid-id')
       .expect(400);
+  });
+
+  // Test unauthenticated access
+  test('GET /authors should return 401 without authentication', async () => {
+    await request(app)
+      .get('/authors')
+      .expect(401);
+  });
+
+  test('GET /authors/:id should return 401 without authentication', async () => {
+    await request(app)
+      .get(`/authors/${testAuthor1Id}`)
+      .expect(401);
   });
 });

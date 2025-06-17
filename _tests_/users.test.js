@@ -27,9 +27,22 @@ describe('Users API', () => {
     await db.collection('users').deleteMany({});
   });
 
+  // Helper function to create authenticated session
+  const getAuthenticatedAgent = async () => {
+    const agent = request.agent(app);
+    
+    // Set up session with mock user data
+    await agent
+      .post('/test-login')
+      .send({ mockUser: { displayName: 'Test User' } });
+
+    return agent;
+  };
+
   test('GET /users should return all users', async () => {
-    const response = await request(app)
-      .get('/users') 
+    const agent = await getAuthenticatedAgent();
+    const response = await agent
+      .get('/users')
       .expect(200);
 
     expect(Array.isArray(response.body)).toBe(true); 
@@ -40,10 +53,11 @@ describe('Users API', () => {
   });
 
   test('GET /users/:id should return a specific user', async () => {
+    const agent = await getAuthenticatedAgent();
     const user = await db.collection('users').findOne();
     
-    const response = await request(app)
-      .get(`/users/${user._id}`) 
+    const response = await agent
+      .get(`/users/${user._id}`)
       .expect(200);
 
     expect(response.body.username).toBe(user.username);
@@ -53,10 +67,26 @@ describe('Users API', () => {
   });
 
   test('GET /users/:id should return 404 for non-existent user', async () => {
+    const agent = await getAuthenticatedAgent();
     const fakeId = new ObjectId();
     
-    await request(app)
-      .get(`/users/${fakeId}`) 
+    await agent
+      .get(`/users/${fakeId}`)
       .expect(404);
+  });
+
+  // Test unauthenticated access
+  test('GET /users should return 401 without authentication', async () => {
+    await request(app)
+      .get('/users')
+      .expect(401);
+  });
+
+  test('GET /users/:id should return 401 without authentication', async () => {
+    const user = await db.collection('users').findOne();
+    
+    await request(app)
+      .get(`/users/${user._id}`)
+      .expect(401);
   });
 });
