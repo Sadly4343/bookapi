@@ -57,7 +57,11 @@ passport.deserializeUser((user, done) => {
 });
 
 app.get('/', (req, res) => { 
-    if (req.session.user) {
+    console.log('Root route - Session user:', req.session.user);
+    console.log('Root route - Req.user:', req.user);
+    console.log('Root route - Session ID:', req.sessionID);
+
+    if (req.session && req.session.user) {
         res.send(`
             <!DOCTYPE html>
             <html>
@@ -98,17 +102,40 @@ app.get('/', (req, res) => {
             </html>
         `);
     } else {
-        res.redirect('/login');
+        res.send(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Logged Out</title>
+                <style>
+                    body { 
+                        font-family: Arial, sans-serif; 
+                        max-width: 800px; 
+                        margin: 50px auto; 
+                        padding: 20px;
+                        text-align: center;
+                    }
+                    .login-btn { 
+                        display: inline-block;
+                        margin: 20px; 
+                        padding: 15px 30px;
+                        background-color: #28a745;
+                        color: white;
+                        text-decoration: none;
+                        border-radius: 5px;
+                        font-size: 18px;
+                    }
+                    .login-btn:hover { background-color: #218838; }
+                </style>
+            </head>
+            <body>
+                <h1>You are logged out</h1>
+                <p>Please log in to access the application.</p>
+                <a href="/login" class="login-btn">Log in with GitHub</a>
+            </body>
+            </html>
+        `);
     }
-    // } else {
-    //     // Instead of redirecting to /login, show a test page
-    //     res.send(`
-    //         <h1>Logged Out Successfully!</h1>
-    //         <p>Session cleared. You would normally be redirected to GitHub login.</p>
-    //         <a href="/login">Click here to log in again</a>
-    //     `);
-    // }
-
 });
 
 app.get('/github/callback', passport.authenticate('github', {
