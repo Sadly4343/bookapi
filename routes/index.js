@@ -22,7 +22,7 @@ router.get('/logout', function(req, res, next) {
         req.session.user = null;
         console.log('Session user cleared');
         
-        res.clearCookie('connect.sid');
+        res.clearCookie('connct.sid');
         res.clearCookie('sessionId');
         console.log('Cookies cleared');
         
